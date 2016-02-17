@@ -21,5 +21,7 @@ public class MatrixOps
                 System.out.print(a[i][j] + "\t");
             System.out.println("");
         }
+        //System.out.println(a[0]);
+        //System.out.println(a[1]);
     }
 }
