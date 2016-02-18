@@ -1,0 +1,52 @@
+This repository aims at studying how parameters are passed in Java, C, C++ and
+Python.
+
+In functions, parameters can be passed in the following way
+
+1) pass by value;
+    The actual parameter (or argument expression) is fully evaluated and the
+    resulting value is copied into a location being used to hold the formal
+    parameter's value during method/function execution. The location is
+    typically a chunk of memory on the runtime stack for the application (which
+    is how Java handles it), but other languages could choose parameter storage
+    differently.
+
+2) pass by reference;
+    The formal parameter merely acts as an alias for the actual parameter.
+    Anytime the method/function uses the formal parameter (for reading or
+    writing), it is actually using the actual parameter.
+
+
+Java is strictly pass-by-value, exactly as in C. In short, Java has pointers
+and is strictly pass-by-value. There's no funky rules. It's simple, clean, and
+clear. 
+The problem we're facing here is statements like: "In Java, Objects are passed
+by reference, and primitives are passed by value". This is half incorrect.
+Everyone can easily agree that primitives are passed by value; there's no such
+thing in Java as a pointer/reference to a primitive. However, objects are not
+passed by reference. A correct statement would be "Objects references are
+passed by value".
+
+====================================================
+public void foo(Dog d) {
+    d = new Dog("Fifi"); // creating the "Fifi" dog
+}
+Dog aDog = new Dog("Max"); // creating the "Max" dog
+// at this point, aDog points to the "Max" dog
+foo(aDog);
+// aDog still points to the "Max" dog
+======================================================
+
+"Dog d" means you defining a pointer to a Dog object, not a Dog object itself.
+
+In Java, "Dog d;" is exactly like C++'s "Dog *d;", and using "d.setName("Fifi");"
+is exactly like C++'s "d->setName("Fifi")";
+
+To sum up: Java has pointers, and the value of the pointer is passed in. There
+is no way to actually pass an object itself as a parameter. You can only pass a
+pointer to an object. Keep in mind, when you call "foo(d);", you are not
+passing an object; you're passing a pointer to the object.
+
+Read the following links will help:
+1) http://javadude.com/articles/passbyvalue.htm
+2) http://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value 

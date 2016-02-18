@@ -1,0 +1,54 @@
+- Pass By Value
+
+          The local parameters are copies of the original arguments passed in;
+          Changes made in the function to these variables do not affect originals
+
+- Pass By Reference
+
+          The local parameters are references to the storage locations of the original arguments passed in.
+          Changes to these variables in the function will affect the originals
+          No copy is made, so overhead of copying (time, storage) is saved
+
+- const Reference Parameters
+
+          The keyword const can be used on reference parameter to prevent it being changed in the function body.
+          General format: const typeName & variablename
+          This would be used to avoid the overhead of making a copy (especially a large item), but still prevent the data from being changed.
+
+➜  cpp_projects git:(master) ✗ g++ PassByConst.cpp
+PassByConst.cpp:35:6: error: read-only variable is not assignable
+   y = y * 2;           // this is illegal
+   ~ ^
+1 error generated.
+Error info:
+
+http://stackoverflow.com/questions/19827119/c-argument-passing-passed-by-reference
+
+http://www.cprogramming.com/tutorial/references.html
+
+http://stackoverflow.com/questions/2564873/how-do-i-use-reference-parameters-in-c
+
+https://isocpp.org/wiki/faq/references
+
+Should I use call-by-value or call-by-reference?  
+(Note: This FAQ needs to be updated for C++11.)
+
+That depends on what you are trying to achieve:
+
+If you want to change the object passed, call by reference or use a pointer; e.g., void f(X&); or void f(X*);.
+If you don’t want to change the object passed and it is big, call by const reference; e.g., void f(const X&);.
+Otherwise, call by value; e.g. void f(X);.
+What does “big” mean? Anything larger than a couple of words.
+
+Why would you want to change an argument? Well, often we have to, but often we have an alternative: produce a new value. Consider:
+
+    void incr1(int& x); // increment
+    int incr2(int x);   // increment
+    int v = 2;
+    incr1(v);   // v becomes 3
+    v = incr2(v);   // v becomes 4
+For a reader, incr2() is likely easier to understand. That is, incr1() is more likely to lead to mistakes and errors. So, we should prefer the style that returns a new value over the one that modifies a value as long as the creation and copy of a new value isn’t expensive.
+
+What if you do want to change the argument, should you use a pointer or use a reference? If passing “not an object” (e.g., a null pointer) is acceptable, using a pointer makes sense. One style is to use a pointer when you want to modify an object because in some contexts that makes it easier to spot that a modification is possible.
+
+Note also that a call of a member function is essentially a call-by-reference on the object, so we often use member functions when we want to modify the value/state of an object.
